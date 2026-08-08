@@ -1,0 +1,88 @@
+plugins {
+    id "com.android.application"
+}
+
+def signingValues = [
+    storeFile    : System.getenv("EXCEL_FPU_KEYSTORE_PATH"),
+    storePassword: System.getenv("EXCEL_FPU_STORE_PASSWORD"),
+    keyAlias     : System.getenv("EXCEL_FPU_KEY_ALIAS"),
+    keyPassword  : System.getenv("EXCEL_FPU_KEY_PASSWORD")
+]
+def missingSigningValues = signingValues.findAll {
+    key, value -> value == null || value.isBlank()
+}.keySet()
+
+android {
+    namespace = "hu.bordasm.excelfingerprintunlock"
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId = "hu.bordasm.excelfingerprintunlock"
+        minSdk = 31
+        targetSdk = 36
+        versionCode = 2
+        versionName = "1.0.1"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    signingConfigs {
+        release {
+            if (signingValues.storeFile) {
+                storeFile = rootProject.file(signingValues.storeFile)
+                storePassword = signingValues.storePassword
+                keyAlias = signingValues.keyAlias
+                keyPassword = signingValues.keyPassword
+                enableV1Signing = false
+                enableV2Signing = true
+                enableV3Signing = true
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+        release {
+            signingConfig = signingConfigs.release
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    lint {
+        abortOnError = true
+        checkReleaseBuilds = true
+        warningsAsErrors = false
+    }
+}
+
+dependencies {
+    implementation "androidx.biometric:biometric:1.1.0"
+}
+
+gradle.taskGraph.whenReady { graph ->
+    def releasePackagingRequested = graph.allTasks.any { task ->
+        task.project == project && (
+            task.name == "assembleRelease" ||
+            task.name == "packageRelease" ||
+            task.name == "bundleRelease" ||
+            task.name == "installRelease" ||
+            task.name == "validateSigningRelease"
+        )
+    }
+    if (releasePackagingRequested && !missingSigningValues.isEmpty()) {
+        throw new GradleException(
+            "Hiányzó release signing környezeti változó: "
+                + missingSigningValues.join(", "))
+    }
+}

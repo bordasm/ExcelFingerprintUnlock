@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Excel Autofill próba</string>
+    <string name="service_name">Excel Autofill próba</string>
+    <string name="service_description">Helyi diagnosztikai szolgáltatás annak ellenőrzésére, hogy az Excel fájljelszómezője támogatja-e az Android automatikus kitöltését.</string>
+    <string name="autofill_probe_label">Excel-próba – ártalmatlan tesztszöveg</string>
+</resources>

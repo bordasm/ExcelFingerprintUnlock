@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Excel jelszó – ujjlenyomat</string>
+    <string name="service_name">Excel jelszó – ujjlenyomat</string>
+    <string name="service_description">A mentett XLSX-megnyitási jelszó biometrikusan engedélyezett kitöltése kizárólag a hiteles Microsoft Excelben.</string>
+    <string name="autofill_locked_label">CSAK XLSX-megnyitás: jelszó ujjlenyomattal</string>
+    <string name="biometric_unlock_title">XLSX-jelszó feloldása</string>
+    <string name="biometric_unlock_subtitle">Csak a titkosított XLSX megnyitási ablakában</string>
+    <string name="biometric_save_title">Jelszó biztonságos mentése</string>
+    <string name="biometric_save_subtitle">Erős biometrikus azonosítás szükséges</string>
+    <string name="cancel">Mégse</string>
+</resources>
