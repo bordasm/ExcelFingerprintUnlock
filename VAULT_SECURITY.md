@@ -23,7 +23,8 @@ fájljelszót kapja meg; az ujjlenyomat a telefonon tárolt jelszó biztonságos
 - A biometrikus prompt egy `CryptoObject` objektummal magát a GCM-műveletet engedélyezi; a
   program nem egy külön „sikeres volt” logikai jelzőre hagyatkozik.
 - A szolgáltatás a UI-fa bejárása előtt ellenőrzi a csomagnevet és a telefonon mért Microsoft
-  aláíró SHA-256 tanúsítványt, valamint a pontosan kipróbált Excel-verziót.
+  aláíró SHA-256 tanúsítványt. Az 1.0.2-től az Excel verziószáma csak tájékoztatásként jelenik meg,
+  a biztonsági döntést nem korlátozza.
 - A célmezőnek jelszó `inputType` típusúnak kell lennie, és illeszkednie kell a két sikeres A16
   próbából levezetett, 80–110 node-os/egyetlen text mezős szerkezeti profilhoz. Eltéréskor nincs
   ajánlat.
@@ -91,8 +92,10 @@ Ezek elkerülését a sikeres natív Excel–Autofill kompatibilitási próba te
 ## Maradék célmező-kockázat
 
 Az Android Autofill nem ad dokumentált, Excel-specifikus azonosítót az „XLSX megnyitási jelszó”
-jelentéshez. A csomag-, aláírás-, pontos Excel-verzió-, jelszó-inputType- és szerkezeti profil
-együttesen erősen szűkít, de elméletileg más, azonos profilú Excel-jelszóablak is megfelelhet.
+jelentéshez. A csomag-, aláírás-, jelszó-inputType- és szerkezeti profil együttesen erősen szűkít,
+de az 1.0.2 minden, a rögzített Microsoft-tanúsítvánnyal aláírt Excel-verziót elfogad. Elméletileg
+más, azonos profilú Excel-jelszóablak is megfelelhet, és egy jövőbeli Excel-verzió UI-változása
+megváltoztathatja a profil jelentését.
 A jelszavas Dataset soha nem töltődik ki automatikusan: külön rá kell koppintani és biometrikusan
 engedélyezni. Ezért a **CSAK XLSX-megnyitás** ajánlatot kizárólag a titkosított fájl megnyitási
 ablakában szabad kiválasztani.

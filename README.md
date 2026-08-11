@@ -12,6 +12,9 @@ other things, it reported:
 > artifacts). I found no specific, exploitable security flaw that would enable password theft, data
 > theft, control of the device, or damage.
 
+The quoted review covered the 1.0.1 design, which still pinned the tested Excel version. Version
+1.0.2 intentionally removes only that version pin; all other security checks remain enabled.
+
 The remainder of this document was written by Codex.
 
 ***************************************************************************************************************
@@ -25,16 +28,16 @@ and fills in the real password.
 
 The final application ID is `hu.bordasm.excelfingerprintunlock`. The application has no internet,
 storage, Accessibility, or clipboard permission. It verifies both the Excel package and the
-Microsoft signing certificate measured on the phone. The release intentionally accepts only the
-tested Excel version `16.0.20228.20090 (2005247675)` and the measured structure of its password
-field. After an Excel update, the application fails closed and must itself be updated. The debug
-build cannot handle real secrets. For the complete security model and its limitations, see
-[VAULT_SECURITY.md](VAULT_SECURITY.md).
+Microsoft signing certificate measured on the phone. Starting with version 1.0.2, the installed
+Excel version is displayed for information but is not restricted. The password-field type and the
+measured structural profile are still enforced. The debug build cannot handle real secrets. For
+the complete security model and its limitations, see [VAULT_SECURITY.md](VAULT_SECURITY.md).
 
 ## Using the Final Application
 
-1. Install `dist/ExcelFingerprintUnlock-1.0.1-release.apk`. When updating from version 1.0.0, do
-   not uninstall the earlier version first.
+1. Install `dist/ExcelFingerprintUnlock-1.0.2-release.apk`. It is a complete, standalone APK and
+   requires neither version 1.0.0 nor 1.0.1. It can also be installed directly over either earlier
+   version as an update; do not uninstall the earlier version first when updating.
 2. Launch the **Excel jelszó – ujjlenyomat** application.
 3. Select it as the Autofill service. Android allows only one primary Autofill provider to be active
    at a time, so this may replace Samsung Pass, for example.
@@ -49,6 +52,15 @@ After enrolling a new fingerprint, changing the screen lock, uninstalling the ap
 changing phones, the password must be entered again. If the application reports that the vault is
 “unusable,” first use the application to delete the saved password and Keystore key, and then set
 them up again. For this reason, keep the real XLSX password in a separate, secure location as well.
+
+## Version 1.0.2 Change
+
+Version 1.0.2 no longer rejects Excel solely because its version name or version code has changed.
+The package name, pinned Microsoft signing certificate, focused password `inputType`, single-field
+rule, 80–110-node structural profile, explicit dataset selection, and per-use strong biometric
+authentication all remain unchanged. Because a future Microsoft-signed Excel version may present a
+different password dialog with the same general profile, the user must select the Autofill
+suggestion only in the password field used to open an encrypted XLSX file.
 
 ## Version 1.0.1 Fix
 
@@ -194,6 +206,10 @@ Ez az alkalmazás az OPENAI Codex-el készült, a GPT-5.6 Sol-al, Ultra erőforr
 Plusz security check-et a Claude Code-al végeztem, a Sonnet 5-ös modellel. Többek között ezt írta:
 "Előre jelzem: ez egy szokatlanul alaposan megtervezett, védekező szemléletű kódbázis. A négy konkrét kérdésedre a válasz nem találtam kihasználható sebezhetőséget, csak néhány kisebb, inkább elméleti/megerősítő jellegű észrevételt. ... A kódbázis lényegesen szigorúbb védelmi szintet valósít meg, mint amit egy hasonló célú alkalmazástól alapból elvárnánk (hardver-kötött, per-use biometrikus kulcs, AEAD, csomagnév+aláírás+verzió pinnelés, struktúra-fingerprint, build-időben kikényszerített statikus tiltólisták, ACL-lel védett és a projektfán kívül tartott kiadási kulcs, reprodukálható és hash-auditált release artifact). Konkrét, kihasználható biztonsági rést sem a jelszó ellopására, sem adatlopásra, sem eszközfeletti irányításra, sem károkozásra nem találtam."
 
+Az idézett ellenőrzés még az 1.0.1 felépítésére vonatkozott, amely rögzítette a kipróbált
+Excel-verziót. Az 1.0.2 szándékosan csak ezt a verziórögzítést távolítja el; minden más biztonsági
+ellenőrzés aktív marad.
+
 Az innentől jövő részeket már a Codex írta.
 
 ***************************************************************************************************************
@@ -207,15 +223,15 @@ egy zárolt javaslat jelenik meg; megérintése után a rendszer erős biometrik
 
 A végleges alkalmazásazonosító `hu.bordasm.excelfingerprintunlock`. Nincs internet-, tárhely-,
 Accessibility- vagy vágólapengedélye. Az Excel csomagját és a telefonon mért Microsoft-aláírást
-is ellenőrzi. A kiadás szándékosan csak a kipróbált Excel `16.0.20228.20090 (2005247675)`
-verziót és annak mért jelszómező-struktúráját fogadja el; Excel-frissítés után fail-closed módon
-appfrissítés szükséges. A debug build nem enged valódi titkot kezelni. A teljes modell és korlátai:
-[VAULT_SECURITY.md](VAULT_SECURITY.md).
+is ellenőrzi. Az 1.0.2-től a telepített Excel verziója csak tájékoztatásként jelenik meg, nincs
+korlátozva; a jelszómező típusa és a mért szerkezeti profil továbbra is kötelező. A debug build nem
+enged valódi titkot kezelni. A teljes modell és korlátai: [VAULT_SECURITY.md](VAULT_SECURITY.md).
 
 ## Végleges alkalmazás használata
 
-1. Telepítse a `dist/ExcelFingerprintUnlock-1.0.1-release.apk` fájlt. Az 1.0.0-ról történő
-   frissítés előtt ne távolítsa el a korábbi verziót.
+1. Telepítse a `dist/ExcelFingerprintUnlock-1.0.2-release.apk` fájlt. Ez egy teljes, önálló APK:
+   nincs szüksége az 1.0.0 vagy 1.0.1 verzióra. Frissítésként közvetlenül bármelyik korábbi verzió
+   fölé is telepíthető; frissítés előtt ne távolítsa el a korábbi verziót.
 2. Indítsa el az **Excel jelszó – ujjlenyomat** appot.
 3. Válassza ki Autofill szolgáltatásként. Androidon egyszerre csak egy elsődleges Autofill
    szolgáltató lehet aktív, ezért ez leválthatja például a Samsung Passt.
@@ -229,6 +245,15 @@ appfrissítés szükséges. A debug build nem enged valódi titkot kezelni. A te
 jelszót újra meg kell adni. Ha az app „nem használható” vaultot jelez, előbb törölje benne a
 mentett jelszót és Keystore-kulcsot, majd állítsa be újra. A valódi XLSX-jelszót ezért külön,
 biztonságos helyen is őrizze meg.
+
+## Az 1.0.2 változása
+
+Az 1.0.2 már nem utasítja el az Excelt pusztán azért, mert megváltozott a verzióneve vagy a
+verziókódja. A csomagnév, a rögzített Microsoft-aláírás, a fókuszált jelszó `inputType`, az
+egyetlen mezős szabály, a 80–110 node-os szerkezeti profil, a külön ajánlatválasztás és a minden
+használathoz szükséges erős biometrikus azonosítás változatlan maradt. Mivel egy jövőbeli,
+Microsoft által aláírt Excel-verzió más jelszóablaka is mutathat hasonló profilt, az Autofill
+ajánlatot kizárólag a titkosított XLSX megnyitási jelszómezőjében szabad kiválasztani.
 
 ## Az 1.0.1 javítás
 

@@ -10,8 +10,6 @@ import java.util.Locale;
 
 final class ExcelIdentity {
     static final String PACKAGE_NAME = "com.microsoft.office.excel";
-    private static final long EXPECTED_VERSION_CODE = 2_005_247_675L;
-    private static final String EXPECTED_VERSION_NAME = "16.0.20228.20090";
 
     private static final byte[] MICROSOFT_SIGNER_SHA256 = new byte[] {
             (byte) 0x1F, (byte) 0xB4, (byte) 0xDE, (byte) 0x76,
@@ -30,10 +28,8 @@ final class ExcelIdentity {
     static boolean isTrustedInstalledExcel(Context context) {
         try {
             PackageManager packageManager = context.getPackageManager();
-            PackageInfo info = packageManager.getPackageInfo(PACKAGE_NAME, 0);
-            return info.getLongVersionCode() == EXPECTED_VERSION_CODE
-                    && EXPECTED_VERSION_NAME.equals(info.versionName)
-                    && packageManager.hasSigningCertificate(
+            packageManager.getPackageInfo(PACKAGE_NAME, 0);
+            return packageManager.hasSigningCertificate(
                     PACKAGE_NAME,
                     MICROSOFT_SIGNER_SHA256,
                     PackageManager.CERT_INPUT_SHA256);
@@ -59,8 +55,8 @@ final class ExcelIdentity {
             return String.format(Locale.ROOT, "Microsoft Excel: %s (%d) – %s",
                     info.versionName, code,
                     isTrustedInstalledExcel(context)
-                            ? "aláírás és verzió hiteles"
-                            : "ALÁÍRÁS/VERZIÓ NEM ELFOGADOTT");
+                            ? "Microsoft-aláírás hiteles; verzió nincs korlátozva"
+                            : "ALÁÍRÁS NEM ELFOGADOTT");
         } catch (PackageManager.NameNotFoundException error) {
             return "Microsoft Excel: nincs telepítve";
         }

@@ -1,8 +1,8 @@
 param(
     [string]$ApkPath = "",
     [string]$ExpectedPackage = "hu.bordasm.excelfingerprintunlock",
-    [int]$ExpectedVersionCode = 2,
-    [string]$ExpectedVersionName = "1.0.1",
+    [int]$ExpectedVersionCode = 3,
+    [string]$ExpectedVersionName = "1.0.2",
     [string]$ExpectedSignerSha256 = "",
     [switch]$AllowDebuggable
 )
@@ -136,6 +136,16 @@ foreach ($file in $sourceFiles) {
         }
     }
 }
+
+$excelIdentityPath = Join-Path $vaultRoot `
+    "src\main\java\hu\bordasm\excelfingerprintunlock\ExcelIdentity.java"
+Assert-True (Test-Path -LiteralPath $excelIdentityPath -PathType Leaf) `
+    "ExcelIdentity.java is missing."
+$excelIdentitySource = Get-Content -LiteralPath $excelIdentityPath -Raw
+Assert-True ($excelIdentitySource -notmatch "EXPECTED_VERSION_(CODE|NAME)") `
+    "Excel version pinning must remain disabled in version 1.0.2."
+Assert-True ($excelIdentitySource -match "hasSigningCertificate\s*\(") `
+    "The Microsoft signing-certificate check is missing."
 
 $structureReaders = @(
     (Join-Path $vaultRoot "src\main\java\hu\bordasm\excelfingerprintunlock\ExcelStructure.java"),

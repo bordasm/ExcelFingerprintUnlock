@@ -17,8 +17,8 @@ $wrapperJar = Join-Path $projectRoot "gradle\wrapper\gradle-wrapper.jar"
 $keytool = Join-Path $javaHome "bin\keytool.exe"
 $expectedWrapperHash = "55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c"
 $releasePinPath = Join-Path $projectRoot "release-signing-cert.sha256"
-$expectedVersionCode = 2
-$expectedVersionName = "1.0.1"
+$expectedVersionCode = 3
+$expectedVersionName = "1.0.2"
 
 $usingDefaultKeystorePath = [string]::IsNullOrWhiteSpace($KeystorePath)
 if ($usingDefaultKeystorePath) {
@@ -311,9 +311,11 @@ try {
     $mappingOutput = Join-Path $dist `
         "ExcelFingerprintUnlock-$versionName-release-mapping.txt"
     $auditRecord = Join-Path $dist "ExcelFingerprintUnlock-$versionName-release.sha256.txt"
-    $existingFinals = @($outputApk, $mappingOutput, $auditRecord) | Where-Object {
-        Test-Path -LiteralPath $_
-    }
+    $existingFinals = @(
+        @($outputApk, $mappingOutput, $auditRecord) | Where-Object {
+            Test-Path -LiteralPath $_
+        }
+    )
     if ($existingFinals.Count -gt 0 -and -not $ReplaceExistingRelease) {
         throw "Release artifacts for version $versionName already exist. " +
             "Use -ReplaceExistingRelease to archive and replace them."
