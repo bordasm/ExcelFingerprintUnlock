@@ -16,7 +16,7 @@
 captures/
 /docs/devChatHistory_Codex.md
 /docs/securityCheckChatHistory_Claude_Code.md
-/docs/Claude Code chat az 1.0.3 verzióhoz.md
+/docs/ClaudeCodeChatForVersion1.0.3.md
 
 # Helyi titkok és hitelesítő adatok
 .env
