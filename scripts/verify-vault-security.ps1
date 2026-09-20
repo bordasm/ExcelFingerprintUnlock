@@ -1,8 +1,8 @@
 param(
     [string]$ApkPath = "",
     [string]$ExpectedPackage = "hu.bordasm.excelfingerprintunlock",
-    [int]$ExpectedVersionCode = 3,
-    [string]$ExpectedVersionName = "1.0.2",
+    [int]$ExpectedVersionCode = 4,
+    [string]$ExpectedVersionName = "1.0.3",
     [string]$ExpectedSignerSha256 = "",
     [switch]$AllowDebuggable
 )

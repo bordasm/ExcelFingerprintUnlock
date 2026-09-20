@@ -17,8 +17,8 @@ $wrapperJar = Join-Path $projectRoot "gradle\wrapper\gradle-wrapper.jar"
 $keytool = Join-Path $javaHome "bin\keytool.exe"
 $expectedWrapperHash = "55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c"
 $releasePinPath = Join-Path $projectRoot "release-signing-cert.sha256"
-$expectedVersionCode = 3
-$expectedVersionName = "1.0.2"
+$expectedVersionCode = 4
+$expectedVersionName = "1.0.3"
 
 $usingDefaultKeystorePath = [string]::IsNullOrWhiteSpace($KeystorePath)
 if ($usingDefaultKeystorePath) {

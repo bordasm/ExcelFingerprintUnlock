@@ -25,9 +25,11 @@ fájljelszót kapja meg; az ujjlenyomat a telefonon tárolt jelszó biztonságos
 - A szolgáltatás a UI-fa bejárása előtt ellenőrzi a csomagnevet és a telefonon mért Microsoft
   aláíró SHA-256 tanúsítványt. Az 1.0.2-től az Excel verziószáma csak tájékoztatásként jelenik meg,
   a biztonsági döntést nem korlátozza.
-- A célmezőnek jelszó `inputType` típusúnak kell lennie, és illeszkednie kell a két sikeres A16
-  próbából levezetett, 80–110 node-os/egyetlen text mezős szerkezeti profilhoz. Eltéréskor nincs
-  ajánlat.
+- A célmezőnek jelszó `inputType` típusúnak kell lennie, egyedüli szöveges Autofill-mezőnek a teljes
+  struktúrában, fókuszban, `webDomain` nélkül. A teljes node-szám csak egy tág (30–250), durva
+  sanity-határ: az A16-on mért node-szám ugyanazon a jelszóképernyőn hideg- és melegindítás között
+  69 és 126 között szórt, ezért az eredeti, két mintából kalibrált 80–110-es sáv nem volt megbízható
+  jel. Eltéréskor nincs ajánlat.
 - Az első Autofill-válaszban nincs jelszó. Csak a felhasználó által kiválasztható, zárolt Dataset
   szerepel; a jelszavas Dataset biometrikus siker után, egyszer használható eredményként készül.
 - A kód nem olvassa az Excel mezőértékét, hintjét, leírását, HTML-információját vagy extráit,

@@ -9,11 +9,13 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 final class ExcelStructure {
-    // A két, ugyanazon A16/Excel builden végzett natív próba 89 és 90 node-ot,
-    // valamint pontosan egy text Autofill mezőt adott. A szűk profil szándékosan
-    // fail-closed: más Excel-képernyőn nem ajánlhatja fel a fájljelszót.
-    private static final int MIN_PROFILE_NODES = 80;
-    private static final int MAX_PROFILE_NODES = 110;
+    // A 2026-09-20-i A16/Excel próbák 69 és 126 node között szórtak ugyanazon a
+    // jelszóképernyőn (hideg- vs. melegindítás), tehát a node-szám önmagában nem
+    // megbízható ujjlenyomat. Ez a két határ csak durva sanity-check a nyilvánvalóan
+    // más képernyők kiszűrésére; a tényleges, fail-closed azonosítást az egyetlen
+    // fókuszált, jelszó-inputType-ú, webDomain nélküli szöveges mező szabálya adja.
+    private static final int MIN_PROFILE_NODES = 30;
+    private static final int MAX_PROFILE_NODES = 250;
 
     private ExcelStructure() {
     }

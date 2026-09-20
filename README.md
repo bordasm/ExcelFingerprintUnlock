@@ -35,8 +35,8 @@ the complete security model and its limitations, see [VAULT_SECURITY.md](VAULT_S
 
 ## Using the Final Application
 
-1. Install `dist/ExcelFingerprintUnlock-1.0.2-release.apk`. It is a complete, standalone APK and
-   requires neither version 1.0.0 nor 1.0.1. It can also be installed directly over either earlier
+1. Install `dist/ExcelFingerprintUnlock-1.0.3-release.apk`. It is a complete, standalone APK and
+   requires none of the earlier versions. It can also be installed directly over any earlier
    version as an update; do not uninstall the earlier version first when updating.
 2. Launch the **Excel jelszó – ujjlenyomat** application.
 3. Select it as the Autofill service. Android allows only one primary Autofill provider to be active
@@ -53,11 +53,22 @@ changing phones, the password must be entered again. If the application reports 
 “unusable,” first use the application to delete the saved password and Keystore key, and then set
 them up again. For this reason, keep the real XLSX password in a separate, secure location as well.
 
+## Version 1.0.3 Change
+
+On-device measurements on Android 16 / One UI 8.5 showed the node count of the same Excel password
+screen ranging from 69 to 126 depending on cold vs. warm start, well outside the 1.0.0–1.0.2 range
+of 80–110 nodes; that range was calibrated from only two closely-spaced samples and was never a
+stable signal. Version 1.0.3 widens the node count to a generous 30–250 sanity bound and relies on
+the already-present, empirically stable check instead: exactly one Autofill text field in the whole
+structure, focused, password `inputType`, and no `webDomain`. The actual security boundary is
+unchanged — the password dataset is never filled automatically; the user must tap the suggestion
+and pass per-use strong biometric authentication.
+
 ## Version 1.0.2 Change
 
 Version 1.0.2 no longer rejects Excel solely because its version name or version code has changed.
 The package name, pinned Microsoft signing certificate, focused password `inputType`, single-field
-rule, 80–110-node structural profile, explicit dataset selection, and per-use strong biometric
+rule, structural profile, explicit dataset selection, and per-use strong biometric
 authentication all remain unchanged. Because a future Microsoft-signed Excel version may present a
 different password dialog with the same general profile, the user must select the Autofill
 suggestion only in the password field used to open an encrypted XLSX file.
@@ -229,8 +240,8 @@ enged valódi titkot kezelni. A teljes modell és korlátai: [VAULT_SECURITY.md]
 
 ## Végleges alkalmazás használata
 
-1. Telepítse a `dist/ExcelFingerprintUnlock-1.0.2-release.apk` fájlt. Ez egy teljes, önálló APK:
-   nincs szüksége az 1.0.0 vagy 1.0.1 verzióra. Frissítésként közvetlenül bármelyik korábbi verzió
+1. Telepítse a `dist/ExcelFingerprintUnlock-1.0.3-release.apk` fájlt. Ez egy teljes, önálló APK:
+   nincs szüksége egyik korábbi verzióra sem. Frissítésként közvetlenül bármelyik korábbi verzió
    fölé is telepíthető; frissítés előtt ne távolítsa el a korábbi verziót.
 2. Indítsa el az **Excel jelszó – ujjlenyomat** appot.
 3. Válassza ki Autofill szolgáltatásként. Androidon egyszerre csak egy elsődleges Autofill
@@ -246,11 +257,23 @@ jelszót újra meg kell adni. Ha az app „nem használható” vaultot jelez, e
 mentett jelszót és Keystore-kulcsot, majd állítsa be újra. A valódi XLSX-jelszót ezért külön,
 biztonságos helyen is őrizze meg.
 
+## Az 1.0.3 változása
+
+Az Android 16 / One UI 8.5-ön végzett méréseknél ugyanannak az Excel jelszóképernyőnek a node-száma
+69 és 126 között szórt attól függően, hogy az Excel hideg- vagy melegindítás után jelent-e meg —
+messze az 1.0.0–1.0.2 által elvárt 80–110 node-os sávon kívül. Ez a sáv mindössze két, egymáshoz
+közeli mintából lett kalibrálva, és sosem volt stabil jel. Az 1.0.3 a node-számot egy tágabb, 30–250
+közötti sanity-határra lazítja, és a ténylegesen stabilnak bizonyult szabályra támaszkodik: pontosan
+egy fókuszált, jelszó `inputType`-ú, `webDomain` nélküli szöveges Autofill-mező legyen a teljes
+struktúrában. A valódi biztonsági határ nem változott: a jelszavas Dataset sosem töltődik ki
+automatikusan, a felhasználónak rá kell koppintania az ajánlatra, és minden alkalommal erős
+biometrikus azonosításon kell átmennie.
+
 ## Az 1.0.2 változása
 
 Az 1.0.2 már nem utasítja el az Excelt pusztán azért, mert megváltozott a verzióneve vagy a
 verziókódja. A csomagnév, a rögzített Microsoft-aláírás, a fókuszált jelszó `inputType`, az
-egyetlen mezős szabály, a 80–110 node-os szerkezeti profil, a külön ajánlatválasztás és a minden
+egyetlen mezős szabály, a szerkezeti profil, a külön ajánlatválasztás és a minden
 használathoz szükséges erős biometrikus azonosítás változatlan maradt. Mivel egy jövőbeli,
 Microsoft által aláírt Excel-verzió más jelszóablaka is mutathat hasonló profilt, az Autofill
 ajánlatot kizárólag a titkosított XLSX megnyitási jelszómezőjében szabad kiválasztani.
